@@ -1,0 +1,8 @@
+{
+  "name": "react-image-annotion",
+  "version": "0.0.1",
+  "description": "React Basic Image Annotion",
+  "main": "dist/index.js",
+  "author": "Minan",
+  "license": "MIT"
+}
