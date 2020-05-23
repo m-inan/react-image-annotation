@@ -2,7 +2,41 @@
   "name": "react-image-annotion",
   "version": "0.0.1",
   "description": "React Basic Image Annotion",
-  "main": "dist/index.js",
   "author": "Minan",
-  "license": "MIT"
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "jsnext:main": "build/index.es.js",
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -cw",
+    "lint": "eslint --ext .ts.tsx src"
+  },
+  "files": [
+    "dist"
+  ],
+  "peerDependencies": {
+    "react": "^16.9.35"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
+    "@types/react-test-renderer": "^16.9.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts-ts": "^3.1.0",
+    "react-test-renderer": "^16.13.1",
+    "rollup": "^2.10.7",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-peer-deps-external": "^2.2.2",
+    "rollup-plugin-typescript2": "^0.27.1",
+    "typescript": "^3.9.3"
+  },
+  "dependencies": {
+    "konva": "^6.0.0",
+    "react-konva": "^16.13.0-3",
+    "use-image": "^1.0.5",
+    "zustand": "^2.2.3"
+  }
 }
