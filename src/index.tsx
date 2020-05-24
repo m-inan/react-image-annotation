@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useRef } from "react";
+import { Stage } from "react-konva";
 
-/* export default class Annotion extends React.Component { */
-/*   render() { */
-/*     return <div style={{ color: "red" }}>Hello</div>; */
-/*   } */
-/* } */
+import { Map } from "./Map";
 
-export default function() {
-  return <div>hello</div>;
+interface Props {
+  width: number;
+  height: number;
 }
+
+export const Annotation: React.FC<Props> = () => {
+  const _stage = useRef(null);
+
+  return (
+    <Stage ref={_stage}>
+      <Map />
+    </Stage>
+  );
+};
 
