@@ -2,11 +2,13 @@ import React from "react";
 import { Layer, Image } from "react-konva";
 import useImage from "use-image";
 
-interface Props {}
+interface Props {
+  source: string;
+}
 
-export const Map: React.FC<Props> = () => {
+export const Map: React.FC<Props> = ({ source }: Props) => {
   // need the image source
-  const [image] = useImage("");
+  const [image] = useImage(source);
 
   return (
     <Layer>
