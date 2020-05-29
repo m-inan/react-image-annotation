@@ -1,1 +1,1 @@
-# React Image Annotion
+# React Lightweight Image Annotion
