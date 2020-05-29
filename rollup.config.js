@@ -23,7 +23,9 @@ export default {
   ],
   plugins: [
     external(),
-    resolve(),
+    resolve({
+      modulesOnly: true,
+    }),
     typescript({
       rollupCommonJSResolveHack: true,
       clean: true,
@@ -32,7 +34,7 @@ export default {
       include: ["node_modules/**"],
       exclude: "src/**",
       namedExports: {
-        "node_modules/ract/react.js": [
+        "node_modules/react/react.js": [
           "Children",
           "Component",
           "PropTypes",
