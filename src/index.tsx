@@ -5,7 +5,7 @@ import { Stage } from "react-konva";
 import { Map } from "./Map";
 import { Regions } from "./regions";
 
-import { useStore, store } from "./store";
+import { store } from "./store";
 import { Region, Point } from "./types";
 import { getRelativePointerPosition } from "./utils";
 
@@ -21,10 +21,6 @@ export const Annotation: React.FC<Props> = ({
   source,
 }: Props) => {
   const _stage = useRef(null);
-
-  const regions = useStore((s) => s.regions);
-
-  console.log(regions);
 
   // create example region
   useEffect(() => {

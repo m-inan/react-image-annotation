@@ -10,6 +10,12 @@ interface Props {}
 
 export const Regions: React.FC<Props> = () => {
   const regions = useStore<Region[]>((s) => s.regions);
+  const isReady = useStore<boolean>((s) => s.isReady);
+
+  // wait for image loading
+  if (!isReady) {
+    return null;
+  }
 
   return (
     <Layer>
