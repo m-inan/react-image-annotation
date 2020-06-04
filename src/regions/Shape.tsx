@@ -9,11 +9,12 @@ interface Props {
 }
 
 export const Shape: React.FC<Props> = ({ region }) => {
-  const { points, closed } = region;
+  const { id, points, closed } = region;
 
   return (
     <Fragment>
       <Line
+        id={`line-${id}`}
         closed={closed}
         strokeWidth={3}
         fill="rgb(68, 232, 145)"

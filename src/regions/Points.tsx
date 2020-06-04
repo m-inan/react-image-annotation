@@ -12,13 +12,67 @@ interface Props {
 }
 
 export const Points: React.FC<Props> = ({ id, closed, points }: Props) => {
+  // Press circle point and close plygon
   const onVertexMouseDown = (_e: KonvaEventObject<MouseEvent>, id: number) => {
-    const { regions, setRegions } = store.getState();
+    const { regions, setRegions, setActive, setDrawing } = store.getState();
 
     setRegions(
       regions.map((item: Region) => {
         if (item.id === id) {
           item.closed = true;
+        }
+
+        return item;
+      })
+    );
+
+    setActive(null);
+    setDrawing(false);
+  };
+
+  // Move Reactable Point
+  const onDragMove = ({ target }: KonvaEventObject<MouseEvent>) => {
+    const targetId = Number(target.attrs.id);
+    const group = target.getParent();
+
+    const Line = group.find(`#line-${id}`);
+    const linePoints: number[] = [];
+
+    for (const item of points) {
+      if (item.id === targetId) {
+        const x: number = target.x();
+        const y: number = target.y();
+
+        linePoints.push(x);
+        linePoints.push(y);
+      } else {
+        linePoints.push(item.x);
+        linePoints.push(item.y);
+      }
+    }
+
+    Line.points(linePoints);
+  };
+
+  const onDragEnd = ({ target }: KonvaEventObject<MouseEvent>) => {
+    const targetId = Number(target.attrs.id);
+
+    const { regions, setRegions } = store.getState();
+
+    setRegions(
+      regions.map((item: Region) => {
+        if (item.id === id) {
+          item.points = points.map((point: Point) => {
+            if (point.id === targetId) {
+              const x: number = target.x();
+              const y: number = target.y();
+
+              point.x = x;
+              point.y = y;
+            }
+
+            return point;
+          });
         }
 
         return item;
@@ -43,22 +97,22 @@ export const Points: React.FC<Props> = ({ id, closed, points }: Props) => {
         if (key !== 0 || closed) {
           return (
             <Rect
-              draggable={closed}
               x={x}
               y={y}
-              id={String(pointId)}
               key={key}
               width={15}
               height={15}
               offsetX={7.5}
               offsetY={7.5}
               opacity={0.8}
+              draggable={closed}
+              id={String(pointId)}
               /* scaleX={invertedScale} */
               /* scaleY={invertedScale} */
               name="region-rect"
               fill="rgb(68, 232, 145)"
-              /* onDragMove={onDragMove} */
-              /* onDragEnd={onDragEnd} */
+              onDragMove={onDragMove}
+              onDragEnd={onDragEnd}
               onMouseEnter={(e) => closed && setStageCursor(e, "move")}
               onMouseLeave={(e) => closed && setStageCursor(e, "default")}
             />

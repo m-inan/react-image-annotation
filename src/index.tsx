@@ -40,7 +40,8 @@ export const Annotation: React.FC<Props> = ({
 
             // increment point id
             const last: Point = points[points.length - 1];
-            const increase = last?.id ?? 1;
+            console.log(last);
+            const increase = (last?.id ?? 0) + 1;
 
             item.points.push({
               x,

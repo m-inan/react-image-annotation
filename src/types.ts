@@ -30,7 +30,7 @@ export type Store = {
   setReady: (isReady: boolean) => void;
 
   active: number | null;
-  setActive: (active: number) => void;
+  setActive: (active: number | null) => void;
 
   isDrawing: boolean;
   setDrawing: (isDrawing: boolean) => void;
