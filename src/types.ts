@@ -1,4 +1,4 @@
-export type Unique = number | string;
+export type ID = number;
 
 export type Point = {
   id: number;
@@ -19,9 +19,24 @@ export type Text = {
 };
 
 export type Region = {
-  id: Unique;
+  id: ID;
   closed: boolean;
   points: Point[];
   texts: Text[];
 };
 
+export type Store = {
+  isReady: boolean;
+  setReady: (isReady: boolean) => void;
+
+  active: number | null;
+  setActive: (active: number) => void;
+
+  isDrawing: boolean;
+  setDrawing: (isDrawing: boolean) => void;
+
+  regions: Array<Region>;
+  setRegions: (regions: Array<Region>) => void;
+
+  addRegion: (id: ID) => void;
+};

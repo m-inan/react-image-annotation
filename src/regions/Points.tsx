@@ -2,15 +2,16 @@ import React, { Fragment } from "react";
 import { Circle, Rect } from "react-konva";
 import { KonvaEventObject } from "konva/types/Node";
 
-import { Point, Region } from "../types";
+import { ID, Point, Region } from "../types";
 import { store } from "../store";
 
 interface Props {
+  id: ID;
   points: Point[];
   closed: boolean;
 }
 
-export const Points: React.FC<Props> = ({ points, closed }: Props) => {
+export const Points: React.FC<Props> = ({ id, closed, points }: Props) => {
   const onVertexMouseDown = (_e: KonvaEventObject<MouseEvent>, id: number) => {
     const { regions, setRegions } = store.getState();
 
@@ -38,14 +39,14 @@ export const Points: React.FC<Props> = ({ points, closed }: Props) => {
 
   return (
     <Fragment>
-      {points.map(({ x, y, id }: Point, key: number) => {
+      {points.map(({ x, y, id: pointId }: Point, key: number) => {
         if (key !== 0 || closed) {
           return (
             <Rect
               draggable={closed}
               x={x}
               y={y}
-              id={String(id)}
+              id={String(pointId)}
               key={key}
               width={15}
               height={15}

@@ -20,7 +20,7 @@ export const Shape: React.FC<Props> = ({ region }) => {
         stroke="rgb(68, 232, 145)"
         points={[...points.flatMap(({ x, y }: any) => [x, y])]}
       />
-      <Points points={points} closed={closed} />
+      <Points {...region} />
     </Fragment>
   );
 };
