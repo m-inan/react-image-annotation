@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import Konva from "konva";
 import { Stage } from "react-konva";
 
@@ -22,11 +22,9 @@ export const Annotation: React.FC<Props> = ({
   height,
   source,
 }: Props) => {
-  const _stage = useRef(null);
-
   const onMouseDown = ({ target }: Konva.KonvaEventObject<MouseEvent>) => {
-    const { active, isDrawing } = store.getState();
     const stage = target.getStage();
+    const { active, isDrawing } = store.getState();
 
     if (active && isDrawing && stage) {
       const { x, y } = getRelativePointerPosition(stage);
@@ -56,8 +54,38 @@ export const Annotation: React.FC<Props> = ({
     }
   };
 
+  const onMouseMove = ({ target }: Konva.KonvaEventObject<MouseEvent>) => {
+    const stage = target.getStage();
+    const { regions, active, isDrawing } = store.getState();
+
+    let length =
+      regions.find((item: Region) => item.id === active)?.points.length ?? 0;
+
+    if (isDrawing && stage && length) {
+      const { x, y } = getRelativePointerPosition(stage);
+      const Line = stage.find(`#line-${active}`)[0] ?? null;
+      // @ts-ignore
+      const points = [...Line.points()];
+
+      length *= 2;
+
+      points[length] = x;
+      points[length + 1] = y;
+
+      // @ts-ignore
+      Line.points([...points]);
+
+      stage.batchDraw();
+    }
+  };
+
   return (
-    <Stage ref={_stage} width={width} height={height} onMouseDown={onMouseDown}>
+    <Stage
+      width={width}
+      height={height}
+      onMouseDown={onMouseDown}
+      onMouseMove={onMouseMove}
+    >
       <Map source={source} />
       <Regions />
     </Stage>
