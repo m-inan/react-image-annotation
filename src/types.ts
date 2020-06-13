@@ -6,6 +6,11 @@ export type Point = {
   y: number;
 };
 
+export type Dimension = {
+  width: number;
+  height: number;
+};
+
 export type Text = {
   id: number;
   x: number;
@@ -37,6 +42,20 @@ export type Store = {
 
   regions: Array<Region>;
   setRegions: (regions: Array<Region>) => void;
-
   addRegion: (id: ID) => void;
+
+  source: string;
+  setSource: (source: string) => void;
+
+  width: number;
+  setWidth: (width: number) => void;
+
+  height: number;
+  setHeight: (height: number) => void;
+
+  scale: number;
+  setScale: (scale: number) => void;
+
+  dimension: Dimension;
+  setDimension: (dimension: Dimension) => void;
 };

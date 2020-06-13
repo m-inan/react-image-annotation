@@ -5,23 +5,19 @@ import { Stage } from "react-konva";
 import { Map } from "./Map";
 import { Regions } from "./regions";
 
-import { store } from "./store";
+import { store, useStore } from "./store";
 import { Region, Point } from "./types";
 import { getRelativePointerPosition } from "./utils";
 
 export { store, useStore } from "./store";
 
-interface Props {
-  width: number;
-  height: number;
-  source: string;
-}
+interface Props {}
 
-export const Annotation: React.FC<Props> = ({
-  width,
-  height,
-  source,
-}: Props) => {
+export const Annotation: React.FC<Props> = () => {
+  const width = useStore((s) => s.width);
+  const height = useStore((s) => s.height);
+  const scale = useStore((s) => s.scale);
+
   const onMouseDown = ({ target }: Konva.KonvaEventObject<MouseEvent>) => {
     const stage = target.getStage();
     const { active, isDrawing } = store.getState();
@@ -83,10 +79,12 @@ export const Annotation: React.FC<Props> = ({
     <Stage
       width={width}
       height={height}
+      scaleX={scale}
+      scaleY={scale}
       onMouseDown={onMouseDown}
       onMouseMove={onMouseMove}
     >
-      <Map source={source} />
+      <Map />
       <Regions />
     </Stage>
   );

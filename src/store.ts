@@ -1,5 +1,5 @@
 import create from "zustand";
-import { Region, Store } from "./types";
+import { Region, Store, Dimension } from "./types";
 
 const [useStore, store] = create<Store>((set, get) => ({
   isReady: false,
@@ -13,7 +13,6 @@ const [useStore, store] = create<Store>((set, get) => ({
 
   regions: [],
   setRegions: (regions: Array<Region>) => set({ regions }),
-
   addRegion: (id: number) => {
     let regions = get().regions;
 
@@ -35,6 +34,21 @@ const [useStore, store] = create<Store>((set, get) => ({
       ],
     });
   },
+
+  source: "",
+  setSource: (source: string) => set({ source, isReady: false }),
+
+  width: window.innerWidth,
+  setWidth: (width: number) => set({ width }),
+
+  height: window.innerHeight,
+  setHeight: (height: number) => set({ height }),
+
+  scale: 1,
+  setScale: (scale: number) => set({ scale }),
+
+  dimension: { width: 100, height: 100 },
+  setDimension: (dimension: Dimension) => set({ dimension }),
 }));
 
 export { useStore, store };
