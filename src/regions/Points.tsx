@@ -3,7 +3,7 @@ import { Circle, Rect } from "react-konva";
 import { KonvaEventObject } from "konva/types/Node";
 
 import { ID, Point, Region } from "../types";
-import { store } from "../store";
+import { store, useStore } from "../store";
 
 interface Props {
   id: ID;
@@ -12,6 +12,10 @@ interface Props {
 }
 
 export const Points: React.FC<Props> = ({ id, closed, points }: Props) => {
+  const { width, height } = useStore((s) => s.dimension);
+
+  const size = ((width + height) / 2) * 0.015;
+
   // Press circle point and close plygon
   const onVertexMouseDown = (_e: KonvaEventObject<MouseEvent>, id: number) => {
     const { regions, setRegions, setActive, setDrawing } = store.getState();
@@ -100,10 +104,10 @@ export const Points: React.FC<Props> = ({ id, closed, points }: Props) => {
               x={x}
               y={y}
               key={key}
-              width={15}
-              height={15}
-              offsetX={7.5}
-              offsetY={7.5}
+              width={size}
+              height={size}
+              offsetX={size / 2}
+              offsetY={size / 2}
               opacity={0.8}
               draggable={closed}
               id={String(pointId)}
