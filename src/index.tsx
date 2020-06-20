@@ -18,6 +18,16 @@ export const Annotation: React.FC<Props> = () => {
   const height = useStore((s) => s.height);
   const scale = useStore((s) => s.scale);
 
+  const onClick = ({ target }: Konva.KonvaEventObject<MouseEvent>) => {
+    const clickedNotOnRegion = target.name() !== "region";
+
+    if (clickedNotOnRegion) {
+      const setSelected = store.getState().setSelected;
+
+      setSelected(null);
+    }
+  };
+
   const onMouseDown = ({ target }: Konva.KonvaEventObject<MouseEvent>) => {
     const stage = target.getStage();
     const { active, isDrawing } = store.getState();
@@ -81,6 +91,7 @@ export const Annotation: React.FC<Props> = () => {
       height={height}
       scaleX={scale}
       scaleY={scale}
+      onClick={onClick}
       onMouseDown={onMouseDown}
       onMouseMove={onMouseMove}
     >

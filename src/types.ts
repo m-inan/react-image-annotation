@@ -37,6 +37,9 @@ export type Store = {
   active: number | null;
   setActive: (active: number | null) => void;
 
+  selected: number | null;
+  setSelected: (selected: number | null) => void;
+
   isDrawing: boolean;
   setDrawing: (isDrawing: boolean) => void;
 

@@ -8,6 +8,9 @@ const [useStore, store] = create<Store>((set, get) => ({
   active: null,
   setActive: (active: number) => set({ active }),
 
+  selected: null,
+  setSelected: (selected: number) => set({ selected }),
+
   isDrawing: false,
   setDrawing: (isDrawing: boolean) => set({ isDrawing }),
 
