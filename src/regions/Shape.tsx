@@ -19,7 +19,6 @@ export const Shape: React.FC<Props> = ({ region }) => {
   const setSelected = useStore((s) => s.setSelected);
 
   const onClick = () => {
-    console.log(id);
     setSelected(id);
   };
 
