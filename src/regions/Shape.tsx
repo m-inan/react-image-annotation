@@ -6,6 +6,7 @@ import { Region } from "../types";
 import { Points } from "./Points";
 import { Texts } from "./Texts";
 import { useStore } from "../store";
+import { calcProportion } from "../utils";
 
 interface Props {
   region: Region;
@@ -16,8 +17,6 @@ export const Shape: React.FC<Props> = ({ region }) => {
 
   const selected = useStore((s) => s.selected);
   const setSelected = useStore((s) => s.setSelected);
-  const { width, height } = useStore((s) => s.dimension);
-  const size = ((width + height) / 2) * 0.002;
 
   const onClick = () => {
     console.log(id);
@@ -43,7 +42,7 @@ export const Shape: React.FC<Props> = ({ region }) => {
         id={`line-${id}`}
         name="region"
         closed={closed}
-        strokeWidth={size}
+        strokeWidth={calcProportion(2)}
         stroke="rgb(68, 232, 145)"
         fill={`rgba(68, 232, 145, ${isSelected ? "0.7" : "0.3"})`}
         points={[...points.flatMap(({ x, y }: any) => [x, y])]}

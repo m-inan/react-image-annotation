@@ -3,7 +3,8 @@ import { Circle, Rect } from "react-konva";
 import { KonvaEventObject } from "konva/types/Node";
 
 import { ID, Point, Region } from "../types";
-import { store, useStore } from "../store";
+import { store } from "../store";
+import { calcProportion } from "../utils";
 
 interface Props {
   id: ID;
@@ -12,9 +13,6 @@ interface Props {
 }
 
 export const Points: React.FC<Props> = ({ id, closed, points }: Props) => {
-  const { width, height } = useStore((s) => s.dimension);
-  const size = ((width + height) / 2) * 0.015;
-
   // Press circle point and close plygon
   const onVertexMouseDown = (_e: KonvaEventObject<MouseEvent>, id: number) => {
     const { regions, setRegions, setActive, setDrawing } = store.getState();
@@ -94,6 +92,8 @@ export const Points: React.FC<Props> = ({ id, closed, points }: Props) => {
     }
   };
 
+  const size = calcProportion(15);
+
   return (
     <Fragment>
       {points.map(({ x, y, id: pointId }: Point, key: number) => {
@@ -126,9 +126,9 @@ export const Points: React.FC<Props> = ({ id, closed, points }: Props) => {
               x={x}
               y={y}
               key={key}
-              radius={10}
               opacity={0.8}
-              strokeWidth={2}
+              strokeWidth={calcProportion(2)}
+              radius={calcProportion(10)}
               /* scaleX={invertedScale} */
               /* scaleY={invertedScale} */
               name="region-circle"
