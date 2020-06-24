@@ -13,7 +13,6 @@ interface Props {
 
 export const Points: React.FC<Props> = ({ id, closed, points }: Props) => {
   const { width, height } = useStore((s) => s.dimension);
-
   const size = ((width + height) / 2) * 0.015;
 
   // Press circle point and close plygon

@@ -15,12 +15,10 @@ export type Text = {
   id: number;
   x: number;
   y: number;
-  size: number;
   value: string;
-  color: string;
-  width: number;
-  height: number;
-  rotation: number;
+  size?: number;
+  color?: string;
+  rotation?: number;
 };
 
 export type Region = {
@@ -46,6 +44,7 @@ export type Store = {
   regions: Array<Region>;
   setRegions: (regions: Array<Region>) => void;
   addRegion: (id: ID) => void;
+  addRegionText: (id: ID, text: Text) => void;
 
   source: string;
   setSource: (source: string) => void;

@@ -4,6 +4,7 @@ import { Line } from "react-konva";
 import { Region } from "../types";
 
 import { Points } from "./Points";
+import { Texts } from "./Texts";
 import { useStore } from "../store";
 
 interface Props {
@@ -34,7 +35,6 @@ export const Shape: React.FC<Props> = ({ region }) => {
     }
   };
 
-  console.log(selected);
   const isSelected = selected === id;
 
   return (
@@ -52,6 +52,7 @@ export const Shape: React.FC<Props> = ({ region }) => {
         onMouseLeave={(e) => closed && setStageCursor(e, "default")}
       />
       <Points {...region} />
+      <Texts {...region} />
     </Fragment>
   );
 };

@@ -1,5 +1,5 @@
 import create from "zustand";
-import { Region, Store, Dimension } from "./types";
+import { Region, Store, Dimension, ID, Text } from "./types";
 
 const [useStore, store] = create<Store>((set, get) => ({
   isReady: false,
@@ -35,6 +35,26 @@ const [useStore, store] = create<Store>((set, get) => ({
           texts: [],
         },
       ],
+    });
+  },
+
+  addRegionText(id: ID, text: Text) {
+    const regions = get().regions;
+
+    set({
+      regions: regions.map((region: Region) => {
+        if (region.id === id) {
+          region.texts.push({
+            size: 30,
+            rotation: 0,
+            color: "white",
+
+            ...text,
+          });
+        }
+
+        return region;
+      }),
     });
   },
 
