@@ -31,9 +31,10 @@ export const Annotation: React.FC<Props> = () => {
   const onMouseDown = ({ target }: Konva.KonvaEventObject<MouseEvent>) => {
     const stage = target.getStage();
     const { active, isDrawing } = store.getState();
+    const { width, height } = store.getState().dimension;
 
     if (active && isDrawing && stage) {
-      const { x, y } = getRelativePointerPosition(stage);
+      let { x, y } = getRelativePointerPosition(stage);
 
       const regions: Region[] = store.getState().regions;
 
@@ -41,6 +42,10 @@ export const Annotation: React.FC<Props> = () => {
         regions: regions.map((item: Region) => {
           if (item.id === active) {
             const points = item.points;
+
+            // border of the frame
+            y = y < 0 ? 0 : y > height ? height : y;
+            x = x < 0 ? 0 : x > width ? width : x;
 
             // increment point id
             const last: Point = points[points.length - 1];

@@ -13,6 +13,9 @@ interface Props {
 }
 
 export const Points: React.FC<Props> = ({ id, closed, points }: Props) => {
+  const rectSize = calcProportion(15);
+  const rectOffset = rectSize / 2;
+
   // Press circle point and close plygon
   const onVertexMouseDown = (_e: KonvaEventObject<MouseEvent>, id: number) => {
     const { regions, setRegions, setActive, setDrawing } = store.getState();
@@ -33,6 +36,8 @@ export const Points: React.FC<Props> = ({ id, closed, points }: Props) => {
 
   // Move Reactable Point
   const onDragMove = ({ target }: KonvaEventObject<MouseEvent>) => {
+    const { width, height } = store.getState().dimension;
+
     const targetId = Number(target.attrs.id);
     const group = target.getParent();
 
@@ -41,8 +46,22 @@ export const Points: React.FC<Props> = ({ id, closed, points }: Props) => {
 
     for (const item of points) {
       if (item.id === targetId) {
-        const x: number = target.x();
-        const y: number = target.y();
+        let x: number = target.x();
+        let y: number = target.y();
+
+        if (y < 0 || y > height) {
+          y = y < 0 ? 0 : height;
+        }
+        if (x < 0 || x > width) {
+          x = x < 0 ? 0 : width;
+        }
+
+        if (target.y() !== y) {
+          target.y(y);
+        }
+        if (target.x() !== x) {
+          target.x(x);
+        }
 
         linePoints.push(x);
         linePoints.push(y);
@@ -92,8 +111,6 @@ export const Points: React.FC<Props> = ({ id, closed, points }: Props) => {
     }
   };
 
-  const size = calcProportion(15);
-
   return (
     <Fragment>
       {points.map(({ x, y, id: pointId }: Point, key: number) => {
@@ -103,10 +120,10 @@ export const Points: React.FC<Props> = ({ id, closed, points }: Props) => {
               x={x}
               y={y}
               key={key}
-              width={size}
-              height={size}
-              offsetX={size / 2}
-              offsetY={size / 2}
+              width={rectSize}
+              height={rectSize}
+              offsetX={rectOffset}
+              offsetY={rectOffset}
               opacity={0.8}
               draggable={closed}
               id={String(pointId)}
