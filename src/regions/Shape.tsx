@@ -43,6 +43,8 @@ export const Shape: React.FC<Props> = ({ region }) => {
         id={`line-${id}`}
         name="region"
         closed={closed}
+        lineCap="round"
+        lineJoin="round"
         strokeWidth={calcProportion(2)}
         stroke="rgb(68, 232, 145)"
         fill={`rgba(68, 232, 145, ${isSelected ? "0.7" : "0.3"})`}

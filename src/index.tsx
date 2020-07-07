@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Konva from "konva";
 import { Stage } from "react-konva";
 
@@ -7,13 +7,16 @@ import { Regions } from "./regions";
 
 import { store, useStore } from "./store";
 import { Region, Point } from "./types";
-import { getRelativePointerPosition } from "./utils";
+import { getRelativePointerPosition, zoomStage } from "./utils";
 
 export { store, useStore } from "./store";
 
 interface Props {}
 
+const { min, max } = Math;
+
 export const Annotation: React.FC<Props> = () => {
+  let _stage = useRef<any>(null);
   const width = useStore((s) => s.width);
   const height = useStore((s) => s.height);
   const scale = useStore((s) => s.scale);
@@ -89,15 +92,46 @@ export const Annotation: React.FC<Props> = () => {
     }
   };
 
+  const onWheel = (event: Konva.KonvaEventObject<MouseWheelEvent>) => {
+    zoomStage(event, store.getState().scale);
+  };
+
+  // Drag corner limit
+  const dragBoundFunc = (pos: Konva.Vector2d) => {
+    const stage: any = _stage.current;
+    let { x, y } = pos;
+
+    if (stage) {
+      const box = stage.findOne("Image").getClientRect();
+      const minX = -box.width + stage.width();
+      const maxX = 0;
+
+      x = max(minX, min(pos.x, maxX));
+
+      const minY = -box.height + stage.height();
+      const maxY = 0;
+
+      y = max(minY, min(pos.y, maxY));
+    }
+    return {
+      x,
+      y,
+    };
+  };
+
   return (
     <Stage
+      draggable
+      ref={_stage}
       width={width}
       height={height}
       scaleX={scale}
       scaleY={scale}
       onClick={onClick}
+      onWheel={onWheel}
       onMouseDown={onMouseDown}
       onMouseMove={onMouseMove}
+      dragBoundFunc={dragBoundFunc}
     >
       <Map />
       <Regions />
