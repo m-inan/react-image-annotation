@@ -12,6 +12,8 @@ interface Props {
   closed: boolean;
 }
 
+const { min, max } = Math;
+
 export const Points: React.FC<Props> = ({ id, closed, points }: Props) => {
   const rectSize = calcProportion(15);
   const rectOffset = rectSize / 2;
@@ -49,12 +51,8 @@ export const Points: React.FC<Props> = ({ id, closed, points }: Props) => {
         let x: number = target.x();
         let y: number = target.y();
 
-        if (y < 0 || y > height) {
-          y = y < 0 ? 0 : height;
-        }
-        if (x < 0 || x > width) {
-          x = x < 0 ? 0 : width;
-        }
+        y = max(0, min(height, y));
+        x = max(0, min(width, x));
 
         if (target.y() !== y) {
           target.y(y);
