@@ -1,16 +1,39 @@
 import React, { Fragment } from "react";
+import Konva from "konva";
 import { Text as KonvaText } from "react-konva";
 
 import { Text } from "../types";
-import { useStore } from "../store";
+import { store } from "../store";
+import { calcProportion } from "../utils";
 
 interface Props {
   texts: Text[];
 }
 
+const { min, max } = Math;
+
 export const Texts: React.FC<Props> = ({ texts }: Props) => {
-  const { width, height } = useStore((s) => s.dimension);
-  const calc = (size: number) => ((width + height) / 2) * (size / 1000);
+  const onDragMove = ({ target }: Konva.KonvaEventObject<MouseEvent>) => {
+    const { width, height } = store.getState().dimension;
+
+    let x: number = target.x();
+    let y: number = target.y();
+
+    const offsetX = target.width() / 2;
+    const offsetY = target.height() / 2;
+
+    console.log(x, width);
+
+    y = max(-offsetY, min(height - offsetY, y));
+    x = max(-offsetX, min(width - offsetX, x));
+
+    if (target.y() !== y) {
+      target.y(y);
+    }
+    if (target.x() !== x) {
+      target.x(x);
+    }
+  };
 
   return (
     <Fragment>
@@ -22,9 +45,10 @@ export const Texts: React.FC<Props> = ({ texts }: Props) => {
             key={key}
             fill={color}
             text={value}
-            fontSize={calc(size || 0)}
+            fontSize={calcProportion(size || 0)}
             draggable={true}
             rotation={rotation}
+            onDragMove={onDragMove}
           />
         )
       )}
