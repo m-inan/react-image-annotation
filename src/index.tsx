@@ -119,6 +119,34 @@ export const Annotation: React.FC<Props> = () => {
     };
   };
 
+  const onKeyUp = (event: KeyboardEvent) => {
+    const { active, setDrawing } = store.getState();
+
+    if (event.keyCode === 16 && active) {
+      setDrawing(true);
+    }
+  };
+
+  const onKeyDown = (event: KeyboardEvent) => {
+    const { isDrawing, setDrawing } = store.getState();
+
+    // when pressed shift key stop drawing
+    // and drag screen position
+    if (event.keyCode === 16 && isDrawing) {
+      setDrawing(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keyup", onKeyUp);
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      window.removeEventListener("keyup", onKeyUp);
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, []);
+
   return (
     <Stage
       draggable
