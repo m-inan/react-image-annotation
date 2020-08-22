@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import Konva from "konva";
 import { Stage } from "react-konva";
 
@@ -120,10 +120,25 @@ export const Annotation: React.FC<Props> = () => {
   };
 
   const onKeyUp = (event: KeyboardEvent) => {
-    const { active, setDrawing } = store.getState();
+    const {
+      active,
+      regions,
+      setDrawing,
+      setActive,
+      setSelected,
+      setRegions,
+    } = store.getState();
 
     if (event.keyCode === 16 && active) {
       setDrawing(true);
+    }
+
+    // when pressed escape stop drawing
+    if (event.keyCode == 27 && active) {
+      setActive(null);
+      setDrawing(false);
+      setSelected(null);
+      setRegions(regions.filter((item: Region) => item.id !== active));
     }
   };
 
